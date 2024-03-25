@@ -9,9 +9,9 @@ $conn = new mysqli($host, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$secure_pass = password_hash($password, PASSWORD_BCRYPT);
 $username = $_POST["username"];
-$secure_pass = $_POST["password"];
+$password = $_POST["password"];
+$secure_pass = password_hash($password, PASSWORD_BCRYPT);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$secure_pass'";
