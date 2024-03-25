@@ -66,44 +66,45 @@
         <h2>Bulb Type 1</h2>
         <p>Price: 20000</p>
         <p>Quantity: 10</p>
-        <a href="#" class="buy-btn">Buy Now</a>
+        <a href="#" class="buy-btn" onclick="addToCart('Bulb Type 1', 20000, 'bulb1.png')">Buy Now</a>
     </div>
     <div class="bulb">
         <img src="bulb2.png" alt="Bulb 2">
         <h2>Bulb Type 2</h2>
         <p>Price: 25000</p>
         <p>Quantity: 8</p>
-        <a href="#" class="buy-btn">Buy Now</a>
+        <a href="#" class="buy-btn" onclick="addToCart('Bulb Type 2', 25000, 'bulb2.png')">Buy Now</a>
     </div>
     <div class="bulb">
-        <img src="bulb3.png" alt="Bulb 2">
-        <h2>Bulb Type 2</h2>
-        <p>Price: 25000</p>
-        <p>Quantity: 8</p>
-        <a href="#" class="buy-btn">Buy Now</a>
+        <img src="bulb3.png" alt="Bulb 3">
+        <h2>Bulb Type 3</h2>
+        <p>Price: 30000</p>
+        <p>Quantity: 5</p>
+        <a href="#" class="buy-btn" onclick="addToCart('Bulb Type 3', 30000, 'bulb3.png')">Buy Now</a>
     </div>
     <div class="bulb">
-        <img src="bulb4.png" alt="Bulb 2">
-        <h2>Bulb Type 2</h2>
-        <p>Price: 25000</p>
-        <p>Quantity: 8</p>
-        <a href="#" class="buy-btn">Buy Now</a>
+        <img src="bulb4.png" alt="Bulb 4">
+        <h2>Bulb Type 4</h2>
+        <p>Price: 35000</p>
+        <p>Quantity: 7</p>
+        <a href="#" class="buy-btn" onclick="addToCart('Bulb Type 4', 35000, 'bulb4.png')">Buy Now</a>
     </div>
     <div class="bulb">
-        <img src="bulb5.png" alt="Bulb 2">
-        <h2>Bulb Type 2</h2>
-        <p>Price: 25000</p>
-        <p>Quantity: 8</p>
-        <a href="#" class="buy-btn">Buy Now</a>
+        <img src="bulb5.png" alt="Bulb 5">
+        <h2>Bulb Type 5</h2>
+        <p>Price: 40000</p>
+        <p>Quantity: 6</p>
+        <a href="#" class="buy-btn" onclick="addToCart('Bulb Type 5', 40000, 'bulb5.png')">Buy Now</a>
     </div>
     <div class="bulb">
-        <img src="bulb6.png" alt="Bulb 2">
-        <h2>Bulb Type 2</h2>
-        <p>Price: 25000</p>
-        <p>Quantity: 8</p>
-        <a href="#" class="buy-btn">Buy Now</a>
+        <img src="bulb6.png" alt="Bulb 6">
+        <h2>Bulb Type 6</h2>
+        <p>Price: 45000</p>
+        <p>Quantity: 9</p>
+        <a href="#" class="buy-btn" onclick="addToCart('Bulb Type 6', 45000, 'bulb6.png')">Buy Now</a>
     </div>
 </div>
+
 <footer>
     <div class="footer-popular">
         <h3>Popular</h3>
@@ -133,16 +134,23 @@
     <div class="footer-services">
         <h3>Services</h3>
         <ul>
-            <li><a href="feedback.html">Feedback</a></li>
-            <li><a href="sell.html">Sell</a></li>
+            <li><a href="#">Service 1</a></li>
+            <li><a href="#">Service 2</a></li>
             <li><a href="#">Service 3</a></li>
         </ul>
     </div>
     
 </footer>
 
-<div class="footer-bottom" style="background-color: black; color: white; height: 20px;">
-    <p>&copy; 2024 Your Website. All Rights Reserved.</p>
-</div>
+<script>
+    function addToCart(name, price, image) {
+        const item = { name, price, image };
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push(item);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        window.location.href = 'cart.html';
+    }
+</script>
+
 </body>
 </html>

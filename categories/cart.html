@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart</title>
+<link rel="stylesheet" href="cart.css">
+<style>
+    /* Existing CSS styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        max-width: 1200px;
+        margin: 20px auto;
+    }
+
+    .sidebar {
+        flex: 1;
+        padding: 20px;
+        background-color: #f6f6f6;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 20px;
+    }
+
+    .cart-summary {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+    }
+
+    .summary-item {
+        margin-bottom: 10px;
+    }
+
+    .summary-item .item-count {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .main-content {
+        flex: 3;
+        padding: 20px;
+    }
+
+    .cart-item {
+        display: flex;
+        border-bottom: 1px solid #ccc;
+        padding: 20px 0;
+    }
+
+    .cart-item img {
+        max-width: 100px;
+        height: auto;
+        margin-right: 20px;
+    }
+
+    .item-details {
+        flex: 1;
+    }
+
+    .remove-btn {
+        background-color: #ff0000;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .total-price {
+        font-weight: bold;
+    }
+
+    .get-address-btn {
+    background-color: transparent;
+    color: #007bff; /* Text color */
+    border: 2px solid #007bff; /* Add a border */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    font-size: 16px;
+}
+
+
+
+
+    .place-order-btn, .get-address-btn {
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+
+    .place-order-btn:hover, .get-address-btn:hover {
+        background-color: #45a049;
+    }
+
+    .payment-options {
+        margin-top: 20px;
+        border-bottom: 1px solid #ccc; /* Add a border bottom */
+        padding-bottom: 20px; /* Add some padding */
+    }
+
+    .payment-options label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .payment-options input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 5px;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <h2>My Cart</h2>
+        <div class="cart-summary">
+            <div class="summary-item">
+                <span class="item-count">3</span>
+                <span class="item-text">items</span>
+            </div>
+            <div class="summary-total">
+                <span>Total:</span>
+                <span class="total-price">0</span>
+            </div>
+        </div>
+        <div class="payment-options">
+            <label>
+                <input type="radio" name="payment-method" value="cod" checked>
+                Cash on Delivery
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="credit_card">
+                Credit Card
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="paypal">
+                PayPal
+            </label>
+            <!-- Add more payment options here if needed -->
+        </div>
+        <button class="get-address-btn" id="get-location" onclick="getUserLocation()">Get My Address</button>
+        <!--<button class="get-address-btn" onclick="yourNewFunction()">Get My Address</button>-->
+
+
+        <div id="user-location" style="margin-bottom: 10px;"></div>
+        <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
+    </div>
+    <div class="main-content">
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <p id="confirmation-message">Order Placed Successfully!</p>
+    </div>
+</div>
+
+<script>
+    // Retrieve items from local storage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalPriceElement = document.querySelector('.total-price');
+    const popup = document.getElementById('popup');
+    const confirmationMessage = document.getElementById('confirmation-message');
+
+    // Function to display items in the cart
+    function displayCartItems() {
+        cartItemsContainer.innerHTML = '';
+        let totalPrice = 0;
+        cart.forEach(item => {
+            const cartItemHTML = `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-details">
+                        <h2>${item.name}</h2>
+                        <p>Price: ${item.price}</p>
+                        <button class="remove-btn" onclick="removeFromCart('${item.name}')">Remove</button>
+                    </div>
+                </div>
+            `;
+            cartItemsContainer.innerHTML += cartItemHTML;
+            totalPrice += item.price;
+        });
+        totalPriceElement.textContent = totalPrice;
+    }
+
+    // Function to remove item from the cart
+    function removeFromCart(name) {
+        cart = cart.filter(item => item.name !== name);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCartItems();
+    }
+
+    // Function to place order
+    function placeOrder() {
+        // Check if the cart is not empty
+        if (cart.length === 0) {
+            alert("Your cart is empty. Please add items before placing an order.");
+            return;
+        }
+
+        // Display confirmation message
+        popup.style.display = 'block';
+
+        // Hide the popup after 3 seconds
+        setTimeout(function() {
+            popup.style.display = 'none';
+        }, 3000); // Adjust the time as needed (3000 milliseconds = 3 seconds)
+    }
+
+    // Function to get user's location
+    function getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Function to display user's location
+    let locationButton = document.getElementById("get-location");
+    let locationDiv = document.getElementById("location-details");
+
+    locationButton.addEventListener("click", () => {
+  //Geolocation APU is used to get geographical position of a user and is available inside the navigator object
+  if (navigator.geolocation) {
+    //returns position(latitude and longitude) or error
+    navigator.geolocation.getCurrentPosition(showLocation, checkError);
+  } else {
+    //For old browser i.e IE
+    locationDiv.innerText = "The browser does not support geolocation";
+  }
+});
+
+//Error Checks
+const checkError = (error) => {
+  switch (error.code) {
+    case error.PERMISSION_DENIED:
+      locationDiv.innerText = "Please allow access to location";
+      break;
+    case error.POSITION_UNAVAILABLE:
+      //usually fired for firefox
+      locationDiv.innerText = "Location Information unavailable";
+      break;
+    case error.TIMEOUT:
+      locationDiv.innerText = "The request to get user location timed out";
+  }
+};
+
+const showLocation = async (position) => {
+  let response = await fetch(
+    `https://nominatim.openstreetmap.org/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`
+  );
+  let data = await response.json();
+  console.log(data);
+  
+  // Check if suburb is available in the address data
+  if (data.address && data.address.suburb) {
+    locationDiv.innerText = `${data.address.suburb}, ${data.address.city}, ${data.address.country}`;
+  } else {
+    locationDiv.innerText = `Location information unavailable`;
+  }
+};     
+
+    // Display cart items on page load
+    displayCartItems();
+</script>
+
+</body>
+</html>
