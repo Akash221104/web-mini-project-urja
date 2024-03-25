@@ -7,7 +7,7 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #f3e5f5, #9c27b0);
+    background: linear-gradient(to bottom, #a8ebb4, #cdf2b5);
     margin: 0;
     display: flex;
     justify-content: center;
@@ -17,13 +17,13 @@
   .feedback-container {
     width: 400px;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(242, 242, 242, 0.2);
   }
   h2 {
     text-align: center;
-    color: #9c27b0;
+    color: #000000de; 
     margin-bottom: 20px;
   }
   .form-group {
@@ -31,7 +31,7 @@
   }
   label {
     font-weight: bold;
-    color: #673ab7;
+    color: #000000; 
   }
   input[type="text"],
   input[type="email"],
@@ -43,7 +43,7 @@
     border-radius: 5px;
     box-sizing: border-box;
     font-size: 16px;
-    background-color: #f3e5f5;
+    background-color: #d3f1d7; /* Light green background */
     color: #333;
     outline: none;
   }
@@ -51,8 +51,8 @@
   input[type="email"]:focus,
   textarea:focus,
   input[type="submit"]:hover {
-    background-color: #9c27b0;
-    color: #fff;
+    background-color: #84e384; /* Dark green on hover/focus */
+    color: #ffffff; /* White text on dark green */
     cursor: pointer;
   }
   textarea {
@@ -64,7 +64,7 @@
   }
   .success-message {
     text-align: center;
-    color: green;
+    color: #248f24; /* Dark green for success message */
     margin-top: 10px;
   }
 </style>
@@ -72,7 +72,7 @@
 <body>
 
 <div class="feedback-container">
-  <h2>Feedback Form</h2>
+  <h2><b>Feedback Form</b></h2>
   <form id="feedbackForm" onsubmit="return submitForm()" action="index.php" method="post" name="feedbackForm">
     <div class="form-group">
       <label for="name">Name:</label><br>
@@ -109,90 +109,32 @@
     <div id="successMessage" class="success-message" style="display: none;">Feedback submitted successfully!</div>
   </form>
 </div>
-<!-- <script>
-    function submitForm() {
-      var name = document.getElementById("name").value;
-      var email = document.getElementById("email").value;
-      var feedback = document.getElementById("feedback").value;
-      var rating = document.getElementById("rating").value;
-    
-      var isValid = true;
-    
-      if (name === "") {
-        document.getElementById("nameError").innerHTML = 
-        "Name is required";
-        isValid = false;
-      } else {
-        document.getElementById("nameError").innerHTML = "";
-      }
-    
-      if (email === "") {
-        document.getElementById("emailError").innerHTML = "Email is required";
-        isValid = false;
-      } else {
-        document.getElementById("emailError").innerHTML = "";
-      }
-    
-      if (feedback === "") {
-        document.getElementById("feedbackError").innerHTML = "Feedback is required";
-        isValid = false;
-      } else {
-        document.getElementById("feedbackError").innerHTML = "";
-      }
-    
-      if (rating === "") {
-        document.getElementById("ratingError").innerHTML = "Rating is required";
-        isValid = false;
-      } else {
-        document.getElementById("ratingError").innerHTML = "";
-      }
-    
-      if (isValid) {
-        document.getElementById("feedbackForm").reset();
-        document.getElementById("successMessage").style.display = "block";
-        setTimeout(function() {
-          document.getElementById("successMessage").style.display = "none";
-        }, 3000); // Hide success message after 3 seconds
-      }
-    
-      return false; // Prevent default form submission
+
+<script>
+  function submitForm() {
+    var name = document.feedbackForm.name.value;
+    var email = document.feedbackForm.email.value;
+    var feedback = document.feedbackForm.feedback.value;
+    var rating = document.feedbackForm.rating.value;
+
+    if (name === "") {
+      alert("Name can't be blank");
+      return false;
+    } else if (email === "") {
+      alert("Email can't be blank");
+      return false;
+    } else if (feedback === "") {
+      alert("Feedback can't be blank");
+      return false;
+    } else if (rating === "") {
+      alert("Rating can't be blank");
+      return false;
+    } else {
+      alert("Feedback successfully submitted");
+      return false;
     }
-    </script> -->
-
-    <script>
-      function submitForm() {
-      var name = document.feedbackForm.name.value;
-      var email = document.feedbackForm.email.value;
-      var feedback = document.feedbackForm.feedback.value;
-      var rating = document.feedbackForm.rating.value;
-
-      if (name === "") {
-        alert("Name cant be blank");
-        return false;
-      }
-
-      else if (email === "") {
-        alert("email cant be blank");
-        return false;
-      }
-     else  if (feedback === "") {
-        alert("feedback can't be blank");
-        return false;
-      }
-     else  if (rating === "") {
-        alert("rating can't be blank");
-        return false;
-      }
-      else{
-        alert("feedback successfull");
-        return false;
-      }
-
-     
-
-    }
-    </script>
-    
+  }
+</script>
 
 </body>
 </html>
