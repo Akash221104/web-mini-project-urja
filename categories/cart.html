@@ -87,7 +87,9 @@
     margin-top: 20px;
     width: 100%;
     font-size: 16px;
+    
 }
+
 
 
 
@@ -134,6 +136,13 @@
         border-radius: 5px;
         color: white;
     }
+    #get-location:hover,
+#get-location:focus,
+#get-location:active {
+    background-color: #58d078; /* Change to your desired color */
+}
+
+    
 </style>
 </head>
 <body>
@@ -166,11 +175,11 @@
             </label>
             <!-- Add more payment options here if needed -->
         </div>
-        <button class="get-address-btn" id="get-location" onclick="getUserLocation()">Get My Address</button>
-        <!--<button class="get-address-btn" onclick="yourNewFunction()">Get My Address</button>-->
-
-
-        <div id="user-location" style="margin-bottom: 10px;"></div>
+        <div class="container">
+     
+            <div id="location-details">Click on the 'Get Location' Button</div>
+            <button id="get-location" >Get Location</button>
+          </div>
         <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
     </div>
     <div class="main-content">
