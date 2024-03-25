@@ -4,118 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="registerStyle.css">
-    <style>
-        #canvas-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .error-message {
-            color: red;
-        }
-    </style>
-    <!--<script src="register.js" defer></script>  Link to external JavaScript file -->
-    <script>
-// JavaScript file
-
-// Function to validate mobile number
-function validateMobile() {
-    var mobilenumber = document.getElementById("mobile-number").value.trim();
-    var mobileError = document.getElementById("mobile-error");
-
-    // Reset previous error message
-    mobileError.textContent = "";
-
-    if (mobilenumber !== "" && isNaN(mobilenumber)) {
-        mobileError.textContent = "Mobile number should contain only numbers";
-    }
-
-    // Check if the mobile number has reached 10 digits
-    if (mobilenumber.length >= 10) {
-        // Disable further input
-        document.getElementById("mobile-number").setAttribute("readonly", "readonly");
-    } else {
-        // Enable input
-
-        document.getElementById("mobile-number").removeAttribute("readonly");
-    }
-}
-
-// Function to validate the entire form
-function validateForm() {
-    var yourname = document.getElementById("yourname").value;
-    var nameError = document.getElementById("name-error");
-    var mobilenumber = document.getElementById("mobile-number").value.trim();
-    var mobileError = document.getElementById("mobile-error");
-    var password = document.getElementById("password").value.trim();
-    var passwordError = document.getElementById("password-error");
-
-    // Reset previous error messages
-    nameError.textContent = "";
-    mobileError.textContent = "";
-    passwordError.textContent = "";
-
-    var isValid = true;
-
-    if (yourname.trim() === "") {
-        nameError.textContent = "Please enter your name";
-        isValid = false;
-    }
-
-    if (mobilenumber === "") {
-        mobileError.textContent = "Please enter your mobile number";
-        isValid = false;
-    } else if (mobilenumber.length !== 10) {
-        mobileError.textContent = "Mobile number should be 10 digits long";
-        isValid = false;
-    } else if (/[^0-9]/.test(mobilenumber)) {
-        mobileError.textContent = "Mobile number should contain only numbers";
-        isValid = false;
-    }
-
-    if (!/[a-zA-Z]/.test(password) || !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password)) {
-        passwordError.textContent = "Password should contain a combination of letters and symbols";
-        isValid = false;
-    }
-    
-    return isValid;
-}
-
-    </script>
+    <link rel="stylesheet" type="text/css"  href="registerStyle.css">
 </head>
 <body>
     
     <div class="register-container">
         <h2>Create Account</h2>
-        <form id="registerForm" onsubmit="return validateForm()">
+        <form id="registerForm" method="post" action="register.php">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" onkeyup="validateUsername()" placeholder="Username" required>
+            </div>
             <div class="input-group">
                 <label for="yourname">Your name:</label>
-                <input type="text" id="yourname" name="yourname" placeholder="First and last name" required>
-                <span id="name-error" class="error-message"></span>
+                <input type="text" id="yourname" name="yourname" onkeyup="validateName()" placeholder="First and last name" required>
             </div>
             <div class="input-group">
                 <label for="mobile-number">Mobile number:</label>
-                <input type="tel" id="mobile-number" name="mobile-number" placeholder="Mobile number" required oninput="validateMobile()">
-                <span id="mobile-error" class="error-message"></span>
+                <input type="tel" id="mobile-number" name="mobile-number" onkeyup="validateMobileNumber()" placeholder="Mobile number" required />
             </div>
             <div class="input-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="At least 6 characters" required>
-                <span id="password-error" class="error-message"></span>
+                <input type="password" id="password" name="password" oninput="validatePassword()" placeholder="At least 6 characters" required>
             </div>
             <div class="sign-in">
                 <label>Already have an account?<a href="login.html"> Sign in</a></label>
             </div>
-            <button type="submit"><a href="home.html"></a>Register</button>
+            <button type="submit">Register</button>
         </form>
     </div>
 
@@ -123,5 +38,46 @@ function validateForm() {
         <canvas id="myCanvas" width="100%" height="100%" style="border:1px solid rgb(0, 0, 0);"></canvas>
     </div>
 
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <p id="popupMessage"></p>
+        </div>
+    </div>
+
 </body>
+<script>
+function validateMobileNumber() {
+    let number= document.getElementById("mobile-number").value;
+    const re = /^[0-9]{10}$/;
+    return ;
+    if (!re.test(number)) {
+    alert("Invalid mobile number.");
+}
+}
+
+function validateUsername() {
+    var username=document.getElementById("username").value;
+    const re = /^[a-zA-Z0-9_]{3,20}$/;
+    if (!re.test(username)) {
+    alert("Invalid username.");
+}
+}
+
+function validateName() {
+    var name=document.getElementById("fullname").value;
+    const re = /^[a-zA-Z\s]+$/;
+    return ;
+    if (!re.test(String(name))) {
+    alert("Invalid name.");
+}
+}
+
+function validatePassword() {
+    var password=document.getElementById("password");
+    if (password.length < 8 && !/[a-z]/.test(password) && !/[A-Z]/.test(password) && !/\d/.test(password)) {
+        alert("Please match the password requirements"); // Password is too short
+    }
+}
+</script>
 </html>

@@ -10,14 +10,14 @@
 <body>
     <div class="login-container">
         <h2>Login to Your Account</h2>
-        <form id="loginForm">
+        <form id="loginForm" method="post" action="login.php">
             <div class="input-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" oninput="validateUsername" required>
             </div>
             <div class="input-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" oninput="validatePassword" required>
             </div>
             <div class="register">
                 <a href="#">New user? Register</a>
@@ -38,4 +38,46 @@
 
     <script src="script.js"></script>
 </body>
+<script>
+function validateUsername(username) {
+    // Regular expression for username validation
+    const re = /^[a-zA-Z0-9_]{3,20}$/;
+    return re.test(username);
+}
+
+// Example usage:
+const username = document.getElementById("username");
+if (validateUsername(username)) {
+    alert("Valid username.");
+} else {
+    alert("Invalid username.");
+}
+
+function validatePassword(password) {
+    // Check if the password meets the criteria
+    if (password.length < 8) {
+        return false; // Password is too short
+    }
+    if (!/[a-z]/.test(password)) {
+        return false; // Password does not contain lowercase letters
+    }
+    if (!/[A-Z]/.test(password)) {
+        return false; // Password does not contain uppercase letters
+    }
+    if (!/\d/.test(password)) {
+        return false; // Password does not contain numbers
+    }
+    // Optionally, you can add more criteria for special characters or specific patterns
+    return true; // Password meets all criteria
+}
+
+// Example usage:
+const password = document.getElementById("password");
+if (validatePassword(password)) {
+    alert("Valid password.");
+} else {
+    alert("Invalid password.");
+}
+
+</script>
 </html>
